@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 final _numberController = TextEditingController();
 
@@ -23,15 +24,30 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
           Widget>[
-        TextFormField(
-          controller: _numberController,
-          decoration: const InputDecoration(labelText: 'Phone Number'),
+        Spacer(
+          flex: 2,
         ),
+        Expanded(
+          child: SizedBox(
+            width: 350,
+            child: TextFormField(
+              keyboardType: TextInputType.number,
+              controller: _numberController,
+              decoration: const InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green)),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey)),
+                labelText: 'Phone Number',
+              ),
+            ),
+          ),
+        ),
+        Spacer(),
         ElevatedButton(
           onPressed: null,
           style: ButtonStyle(
-              fixedSize:
-                  MaterialStateProperty.all<Size>(const Size.fromWidth(125)),
+              fixedSize: MaterialStateProperty.all<Size>(Size(125, 30)),
               backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
@@ -45,6 +61,42 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.white,
                 ),
               ]),
+        ),
+        Spacer(),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 120,
+                height: 1,
+                color: Color.fromARGB(111, 158, 158, 158),
+              ),
+              Text("        OR        "),
+              Container(
+                width: 120,
+                height: 1,
+                color: Color.fromARGB(111, 158, 158, 158),
+              )
+            ],
+          ),
+        ),
+        Spacer(),
+        ElevatedButton(
+          onPressed: null,
+          child: Text(
+            "Continue without login",
+            style: TextStyle(color: Color.fromARGB(176, 0, 101, 168)),
+          ),
+          style: ButtonStyle(
+              fixedSize: MaterialStateProperty.all<Size>(Size(200, 30)),
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: BorderSide(color: Colors.black)))),
+        ),
+        Spacer(
+          flex: 3,
         )
       ]),
     );
