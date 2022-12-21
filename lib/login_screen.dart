@@ -1,9 +1,13 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobileprograminghw2/sms_screen.dart';
+import 'package:mobileprograminghw2/welcome_screen.dart';
+
 
 final _numberController = TextEditingController();
+final isFocusedProvider = StateProvider(((ref) => false));
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("PERSONNEL INFORMATION SYSTEM"),
@@ -30,22 +35,12 @@ class _LoginScreenState extends State<LoginScreen> {
         Expanded(
           child: SizedBox(
             width: 350,
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              controller: _numberController,
-              decoration: const InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green)),
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey)),
-                labelText: 'Phone Number',
-              ),
-            ),
+            child: FormField(),
           ),
         ),
         Spacer(),
         ElevatedButton(
-          onPressed: null,
+          onPressed:(() =>{ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  SmsScreen(number: _numberController.text)))}) ,
           style: ButtonStyle(
               fixedSize: MaterialStateProperty.all<Size>(Size(125, 30)),
               backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
@@ -83,7 +78,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         Spacer(),
         ElevatedButton(
-          onPressed: null,
+          onPressed: (){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const WelcomeScreen(name: "Guest")));
+          },
           child: Text(
             "Continue without login",
             style: TextStyle(color: Color.fromARGB(176, 0, 101, 168)),
@@ -99,6 +96,30 @@ class _LoginScreenState extends State<LoginScreen> {
           flex: 3,
         )
       ]),
+    );
+  }
+}
+
+class FormField extends ConsumerWidget {
+  const FormField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context,WidgetRef ref) {
+    var isFocused = ref.watch(isFocusedProvider);
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      controller: _numberController,
+      decoration:  InputDecoration(
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.green)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey)),
+        labelText: 'Phone Number',
+        labelStyle: TextStyle(color: (isFocused ==true )? Colors.green : Colors.grey)
+      
+      ),onTap: () => {ref.read(isFocusedProvider.notifier).state = !ref.read(isFocusedProvider.notifier).state},
     );
   }
 }
