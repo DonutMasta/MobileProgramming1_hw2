@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+
 class WelcomeScreen extends StatelessWidget {
   final String name;
   const WelcomeScreen({super.key, required this.name});
@@ -12,10 +12,19 @@ class WelcomeScreen extends StatelessWidget {
         backgroundColor: Colors.green,
         centerTitle: true,
         toolbarHeight: 75,
-      ),body:  Column(
+      ),
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [Spacer(),
-          Text("Welcome $name!",textAlign: TextAlign.center,style: TextStyle(fontSize: 60, color: Colors.grey ),),Spacer(flex: 2,)
+        children: [
+          const Spacer(),
+          Text(
+            "Welcome $name!",
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 60, color: Colors.grey),
+          ),
+          const Spacer(
+            flex: 2,
+          )
         ],
       ),
     );

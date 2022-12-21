@@ -81,16 +81,16 @@ class _LoginScreenState extends State<LoginScreen> {
           onPressed: (){
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const WelcomeScreen(name: "Guest")));
           },
-          child: Text(
-            "Continue without login",
-            style: TextStyle(color: Color.fromARGB(176, 0, 101, 168)),
-          ),
           style: ButtonStyle(
               fixedSize: MaterialStateProperty.all<Size>(Size(200, 30)),
               backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),
                   side: BorderSide(color: Colors.black)))),
+          child: Text(
+            "Continue without login",
+            style: TextStyle(color: Color.fromARGB(176, 0, 101, 168)),
+          ),
         ),
         Spacer(
           flex: 3,

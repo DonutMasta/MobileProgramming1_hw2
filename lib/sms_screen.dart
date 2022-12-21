@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+
 
 import 'dart:async';
 
@@ -13,9 +13,62 @@ final codeLengthProvider = StateProvider(((ref) => 0));
 final isApprovedProvider = StateProvider(((ref) => false));
 late Timer timer;
 
+class SmsScreen extends ConsumerWidget {
+  final String number;
+
+  const SmsScreen({
+    super.key,
+    required this.number,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    _timer(ref);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("PERSONNEL INFORMATION SYSTEM"),
+        backgroundColor: Colors.green,
+        centerTitle: true,
+        toolbarHeight: 75,
+      ),
+      body: Form(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Spacer(
+            flex: 3,
+          ),
+          SizedBox(
+            width: 250,
+            child: Text(
+                "Please enter the verification code sent to your mobile phone number with $number ",
+                textAlign: TextAlign.center),
+          ),
+          const Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [TimeEnd(), Countdown()],
+          ),
+          const Spacer(),
+          const Expanded(
+            flex: 2,
+            child: TextBox(),
+          ),
+          const Spacer(
+            flex: 2,
+          ),
+          const SmsButton(),
+          const Spacer(
+            flex: 4,
+          )
+        ],
+      )),
+    );
+  }
+}
 
 void _timer(WidgetRef ref) {
-  timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  timer = Timer.periodic(const Duration(seconds: 1), (timer) {
     ref.read(counterProvider.notifier).state--;
     if (ref.read(counterProvider.notifier).state == 0) {
       ref.read(timeEndProvider.notifier).state = true;
@@ -61,7 +114,10 @@ void _buttonHandler(
 
     _timer(ref);
   } else if (isApproved == true) {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>WelcomeScreen(name: "Özgür Özşen")));
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const WelcomeScreen(name: "Özgür Özşen")));
     timer.cancel();
   }
 }
@@ -82,72 +138,17 @@ class SmsButton extends ConsumerWidget {
               ? (() => _buttonHandler(context, ref, timeEnd, isApproved))
               : null),
       style: ButtonStyle(
-          fixedSize: MaterialStateProperty.all<Size>(Size(125, 30)),
+          fixedSize: MaterialStateProperty.all<Size>(const Size(125, 30)),
           backgroundColor: MaterialStateProperty.all<Color>(
               ((timeEnd || isApproved)) ? Colors.black : Colors.grey),
           shape: MaterialStateProperty.all(RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18.0),
           ))),
-      child: Row(mainAxisAlignment: MainAxisAlignment.center,
-          // ignore: prefer_const_literals_to_create_immutables
-          children: <Widget>[
-            Text(timeEnd ? "Resend" : "Continue  ",
-                style: TextStyle(color: Colors.white)),
-          ]),
-    );
-  }
-}
-
-class SmsScreen extends ConsumerWidget {
-  final String number;
-
-  const SmsScreen({
-    super.key,
-    required this.number,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    _timer(ref);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("PERSONNEL INFORMATION SYSTEM"),
-        backgroundColor: Colors.green,
-        centerTitle: true,
-        toolbarHeight: 75,
-      ),
-      body: Form(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Spacer(
-            flex: 3,
-          ),
-          SizedBox(
-            width: 250,
-            child: Text(
-                "Please enter the verification code sent to your mobile phone number with $number ",
-                textAlign: TextAlign.center),
-          ),
-          Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [TimeEnd(), Countdown()],
-          ),
-          Spacer(),
-          Expanded(
-            flex: 2,
-            child: TextBox(),
-          ),
-          Spacer(
-            flex: 2,
-          ),
-          SmsButton(),
-          Spacer(
-            flex: 4,
-          )
-        ],
-      )),
+      child:
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+        Text(timeEnd ? "Resend" : "Continue  ",
+            style: const TextStyle(color: Colors.white)),
+      ]),
     );
   }
 }
@@ -184,7 +185,7 @@ class TextBox extends ConsumerWidget {
                               : (ref.watch(isApprovedProvider)
                                   ? Colors.green
                                   : Colors.red))),
-                  enabledBorder: OutlineInputBorder(
+                  enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey)),
                   labelText: 'SMS Code',
                   labelStyle: TextStyle(
